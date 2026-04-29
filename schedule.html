@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schedule — Pivt Sports | Gustavus Men's Basketball</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-pivt">PIVT</div>
+    <div class="logo-sports">SPORTS</div>
+  </div>
+  <div class="sidebar-team">
+    <div class="sidebar-team-name">Gustavus Adolphus</div>
+    <div class="sidebar-team-sub">Men's Basketball · MIAC</div>
+    <div class="sidebar-record">
+      <div class="record-pill">27–3</div>
+      <div class="record-pill">15–1 MIAC</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="index.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </a>
+    <a href="roster.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Roster
+    </a>
+    <a href="stats.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Analytics
+    </a>
+    <a href="schedule.html" class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Schedule
+    </a>
+    <a href="film.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      Film Room
+    </a>
+    <a href="recruiting.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6.29 6.29l.87-.87a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.94 16.92z"/></svg>
+      Recruiting
+    </a>
+    <div class="nav-group-label">System</div>
+    <a href="#" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Announcements
+    </a>
+    <a href="#" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+      Settings
+    </a>
+  </nav>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="topbar-path">PIVT / <span>Schedule</span></div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-tag">2025–26 · Final</div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <div class="page-header-row">
+      <div class="page-header" style="margin-bottom:0;">
+        <div class="page-title">Schedule & Results</div>
+        <div class="page-subtitle">2025–26 Gustavus Adolphus Gusties — Final Record: 27–3 (15–1 MIAC)</div>
+      </div>
+      <button class="btn btn-ghost btn-sm">Export Schedule</button>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Season Summary Cards -->
+    <div class="grid-4" style="gap:12px; margin-bottom:28px;">
+      <div class="stat-card">
+        <div class="stat-label">Final Record</div>
+        <div class="stat-value">27–3</div>
+        <div class="stat-sub">Overall</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">MIAC Record</div>
+        <div class="stat-value">15–1</div>
+        <div class="stat-sub">MIAC Champions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Home</div>
+        <div class="stat-value" style="color:var(--success);">13–1</div>
+        <div class="stat-sub">Gus Young Court</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Away</div>
+        <div class="stat-value" style="color:var(--success);">14–2</div>
+        <div class="stat-sub">Road Record</div>
+      </div>
+    </div>
+
+    <!-- Non-Conference Games -->
+    <div class="section-header">
+      <div class="section-title">Non-Conference</div>
+      <span class="badge badge-gray">November – December</span>
+    </div>
+
+    <div class="card" style="padding:0; margin-bottom:24px;">
+      <div class="card-accent"></div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th></th>
+              <th>Opponent</th>
+              <th>H/A</th>
+              <th>Result</th>
+              <th>Score</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="muted" style="white-space:nowrap;">Nov 7</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Aurora University</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">84–79</td>
+              <td class="muted" style="font-size:11px;">Season Opener</td>
+            </tr>
+            <tr>
+              <td class="muted">Nov 8</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Rockford University</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">96–49</td>
+              <td class="muted" style="font-size:11px;">+47 margin</td>
+            </tr>
+            <tr style="background:rgba(255,77,77,0.04);">
+              <td class="muted">Nov 20</td>
+              <td><span class="result-l">L</span></td>
+              <td class="name">Whitworth University</td>
+              <td class="muted">Home</td>
+              <td><span class="badge badge-red" style="font-size:8px;">Loss</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--danger);">60–62</td>
+              <td class="muted" style="font-size:11px;">1 of 3 losses</td>
+            </tr>
+            <tr>
+              <td class="muted">Nov 22</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Wis.-Platteville</td>
+              <td class="muted">Home</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">87–72</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="muted">Nov 29</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Central Iowa</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">77–67</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="muted">Dec 3</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Hamline University</td>
+              <td class="muted">Home</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">70–65</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="muted">Dec 6</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Saint Mary's University</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">90–54</td>
+              <td class="muted" style="font-size:11px;">+36 blowout</td>
+            </tr>
+            <tr style="background:rgba(255,209,0,0.04);">
+              <td class="muted">Dec 10</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Saint John's University</td>
+              <td class="muted">Home</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">95–80</td>
+              <td><span class="badge badge-gold" style="font-size:8px;">Rivalry</span></td>
+            </tr>
+            <tr>
+              <td class="muted">Dec 16</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Simpson College</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">71–67</td>
+              <td class="muted" style="font-size:11px;">Close road win</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MIAC Schedule -->
+    <div class="section-header">
+      <div class="section-title">MIAC Conference Games</div>
+      <span class="badge badge-gold">15–1 Champions</span>
+    </div>
+
+    <div class="card" style="padding:0; margin-bottom:24px;">
+      <div class="card-accent"></div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th></th>
+              <th>Opponent</th>
+              <th>H/A</th>
+              <th>Result</th>
+              <th>Score</th>
+              <th>MIAC Rec.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="muted">Jan 4</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Concordia-Moorhead</td>
+              <td class="muted">Home</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">88–62</td>
+              <td class="muted">1–0</td>
+            </tr>
+            <tr>
+              <td class="muted">Jan 8</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Bethel University</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">82–70</td>
+              <td class="muted">2–0</td>
+            </tr>
+            <tr>
+              <td class="muted">Jan 11</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Macalester College</td>
+              <td class="muted">Home</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">101–58</td>
+              <td class="muted">3–0</td>
+            </tr>
+            <tr>
+              <td class="muted">Jan 15</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Augsburg University</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">78–66</td>
+              <td class="muted">4–0</td>
+            </tr>
+            <tr style="background:rgba(255,209,0,0.04);">
+              <td class="muted">Jan 18</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">St. Olaf College</td>
+              <td class="muted">Home</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">86–72</td>
+              <td class="muted">5–0</td>
+              <!-- St. Olaf rivalry -->
+            </tr>
+            <tr>
+              <td class="muted">Jan 22</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Carleton College</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">79–61</td>
+              <td class="muted">6–0</td>
+            </tr>
+            <tr>
+              <td class="muted">Jan 25</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Hamline University</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">83–69</td>
+              <td class="muted">7–0</td>
+            </tr>
+            <tr>
+              <td class="muted">Jan 29</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Saint Mary's University</td>
+              <td class="muted">Home</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">93–61</td>
+              <td class="muted">8–0</td>
+            </tr>
+            <tr style="background:rgba(255,77,77,0.03);">
+              <td class="muted">Feb 1</td>
+              <td><span class="result-l">L</span></td>
+              <td class="name">Concordia-Moorhead</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-red" style="font-size:8px;">Loss</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--danger);">71–75</td>
+              <td class="muted">8–1</td>
+            </tr>
+            <tr>
+              <td class="muted">Feb 5</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Saint John's University</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">89–77</td>
+              <td class="muted">9–1 <span class="badge badge-gold" style="font-size:7px; margin-left:4px;">Rivalry</span></td>
+            </tr>
+            <tr style="background:rgba(255,209,0,0.04);">
+              <td class="muted">Feb 8</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">St. Olaf College</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">81–68</td>
+              <td class="muted">10–1</td>
+            </tr>
+            <tr>
+              <td class="muted">Feb 12</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Bethel University</td>
+              <td class="muted">Home</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">94–75</td>
+              <td class="muted">11–1</td>
+            </tr>
+            <tr>
+              <td class="muted">Feb 15</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Augsburg University</td>
+              <td class="muted">Home</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">88–64</td>
+              <td class="muted">12–1</td>
+            </tr>
+            <tr>
+              <td class="muted">Feb 19</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Carleton College</td>
+              <td class="muted">Home</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">92–68</td>
+              <td class="muted">13–1</td>
+            </tr>
+            <tr>
+              <td class="muted">Feb 22</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Macalester College</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">87–54</td>
+              <td class="muted">14–1</td>
+            </tr>
+            <tr style="background:rgba(255,209,0,0.06);">
+              <td class="muted">Feb 26</td>
+              <td><span class="result-w">W</span></td>
+              <td class="name">Saint Mary's University</td>
+              <td class="muted">Away</td>
+              <td><span class="badge badge-green" style="font-size:8px;">Win</span></td>
+              <td style="font-family:'Oswald',sans-serif; font-weight:600; color:var(--success);">76–60</td>
+              <td class="muted" style="font-weight:700; color:var(--gold);">15–1 ✦ CHAMPS</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Rivalry Spotlight -->
+    <div class="section-header">
+      <div class="section-title">Rivalry Spotlight</div>
+    </div>
+    <div class="grid-3" style="gap:16px;">
+      <div class="card" style="padding:20px; border-color:rgba(255,209,0,0.2);">
+        <div class="card-accent"></div>
+        <div class="card-title">vs. St. Olaf College</div>
+        <div style="font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:1px; color:var(--gold); text-transform:uppercase; margin-bottom:10px;">Biggest Rivalry</div>
+        <div style="display:flex; gap:12px; align-items:center;">
+          <div style="text-align:center;">
+            <div style="font-family:'Oswald',sans-serif; font-size:24px; font-weight:700; color:var(--success);">2–0</div>
+            <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px;">Season</div>
+          </div>
+          <div style="flex:1; font-size:11px; color:var(--text-muted);">
+            Home: 86–72 &nbsp;·&nbsp; Away: 81–68<br/>
+            <span style="color:var(--text-dim); font-size:10px;">Ole-Gustavus Classic Series</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="padding:20px;">
+        <div class="card-accent"></div>
+        <div class="card-title">vs. Saint John's University</div>
+        <div style="font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:1px; color:var(--gold); text-transform:uppercase; margin-bottom:10px;">Historic Rivalry</div>
+        <div style="display:flex; gap:12px; align-items:center;">
+          <div style="text-align:center;">
+            <div style="font-family:'Oswald',sans-serif; font-size:24px; font-weight:700; color:var(--success);">2–0</div>
+            <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px;">Season</div>
+          </div>
+          <div style="flex:1; font-size:11px; color:var(--text-muted);">
+            Home: 95–80 &nbsp;·&nbsp; Away: 89–77<br/>
+            <span style="color:var(--text-dim); font-size:10px;">Season sweep — strong statement</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="padding:20px;">
+        <div class="card-accent"></div>
+        <div class="card-title">vs. Bethel University</div>
+        <div style="font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:1px; color:var(--gold); text-transform:uppercase; margin-bottom:10px;">Conference Rival</div>
+        <div style="display:flex; gap:12px; align-items:center;">
+          <div style="text-align:center;">
+            <div style="font-family:'Oswald',sans-serif; font-size:24px; font-weight:700; color:var(--success);">2–0</div>
+            <div style="font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px;">Season</div>
+          </div>
+          <div style="flex:1; font-size:11px; color:var(--text-muted);">
+            Away: 82–70 &nbsp;·&nbsp; Home: 94–75<br/>
+            <span style="color:var(--text-dim); font-size:10px;">Dominant sweep both venues</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div>Pivt Sports <span class="footer-brand">· The Coaching Operating System</span></div>
+    <div>© 2026 Pivt Sports — pivtsports.com</div>
+  </footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
