@@ -348,10 +348,13 @@
           <div class="page-title">Practice Plans</div>
           <div class="page-subtitle">Session planning, drill library, and time management · Gus Young Court</div>
         </div>
-        <button class="btn btn-gold">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Create New Plan
-        </button>
+        <div style="text-align:right;">
+          <button class="btn btn-gold">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Create New Plan
+          </button>
+          <div class="helper-text">Start from scratch or use a template from your drill library</div>
+        </div>
       </div>
     </div>
 
@@ -500,13 +503,15 @@
     </div>
 
     <!-- Drill Library -->
-    <div class="section-header" style="margin-bottom:14px;">
+    <div class="section-header" style="margin-bottom:4px;">
       <div class="section-title">Drill Library</div>
       <button class="btn btn-ghost btn-sm">+ Add Drill</button>
     </div>
+    <div class="helper-text" style="margin-bottom:14px;">Drag drills into your practice plan, or click to add</div>
     <div class="grid-3">
 
-      <div class="drill-card">
+      <div class="drill-card" draggable="true" title="Drag to add to practice plan">
+        <span class="drill-grip">⋮⋮</span>
         <div class="drill-card-cat">
           <div class="cat-dot" style="background:#555;"></div>
           <div class="cat-label">Warm-Up</div>
@@ -516,7 +521,8 @@
         <div class="drill-card-corner" style="background:#555;"></div>
       </div>
 
-      <div class="drill-card">
+      <div class="drill-card" draggable="true" title="Drag to add to practice plan">
+        <span class="drill-grip">⋮⋮</span>
         <div class="drill-card-cat">
           <div class="cat-dot" style="background:#4d94ff;"></div>
           <div class="cat-label">Defense</div>
@@ -527,7 +533,8 @@
         <div class="drill-card-corner" style="background:#4d94ff;"></div>
       </div>
 
-      <div class="drill-card">
+      <div class="drill-card" draggable="true" title="Drag to add to practice plan">
+        <span class="drill-grip">⋮⋮</span>
         <div class="drill-card-cat">
           <div class="cat-dot" style="background:var(--gold);"></div>
           <div class="cat-label">Transition</div>
@@ -538,7 +545,8 @@
         <div class="drill-card-corner" style="background:var(--gold);"></div>
       </div>
 
-      <div class="drill-card">
+      <div class="drill-card" draggable="true" title="Drag to add to practice plan">
+        <span class="drill-grip">⋮⋮</span>
         <div class="drill-card-cat">
           <div class="cat-dot" style="background:#3ddc84;"></div>
           <div class="cat-label">Shooting</div>
@@ -549,7 +557,8 @@
         <div class="drill-card-corner" style="background:#3ddc84;"></div>
       </div>
 
-      <div class="drill-card">
+      <div class="drill-card" draggable="true" title="Drag to add to practice plan">
+        <span class="drill-grip">⋮⋮</span>
         <div class="drill-card-cat">
           <div class="cat-dot" style="background:#ff4d4d;"></div>
           <div class="cat-label">Conditioning</div>
@@ -560,7 +569,8 @@
         <div class="drill-card-corner" style="background:#ff4d4d;"></div>
       </div>
 
-      <div class="drill-card">
+      <div class="drill-card" draggable="true" title="Drag to add to practice plan">
+        <span class="drill-grip">⋮⋮</span>
         <div class="drill-card-cat">
           <div class="cat-dot" style="background:#b366ff;"></div>
           <div class="cat-label">Offense</div>

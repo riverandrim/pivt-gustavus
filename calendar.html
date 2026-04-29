@@ -147,6 +147,12 @@
       <div class="legend-item"><div class="legend-dot" style="background: #666;"></div> Team Event</div>
     </div>
 
+    <!-- Add Event Hint -->
+    <div class="cal-add-hint">
+      <span class="cal-add-hint-icon">💡</span>
+      <span><strong style="color:var(--gold);">Click any day</strong> to add an event &mdash; practice, lift, game, or film session</span>
+    </div>
+
     <!-- Month Header -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
       <button style="background: #1e1e1e; border: 1px solid #333; color: #ccc; padding: 0.5rem 1rem; cursor: pointer; font-family: 'Oswald', sans-serif;">← NOV</button>
@@ -443,5 +449,15 @@
 </div><!-- /.main -->
 
 <script src="app.js"></script>
+<script>
+  // Add "+" hover icon to all calendar days so coaches know they can add events
+  document.querySelectorAll('.cal-day:not(.other-month)').forEach(day => {
+    const plus = document.createElement('span');
+    plus.className = 'cal-day-plus';
+    plus.textContent = '+';
+    day.appendChild(plus);
+    day.style.cursor = 'pointer';
+  });
+</script>
 </body>
 </html>
