@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Schedule — Pivt Sports</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .player-shell { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #111; }
+    .player-topbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; background: #111; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 10; }
+    .player-logo { font-family: 'Oswald', sans-serif; color: #FFD100; font-size: 1.2rem; font-weight: 700; letter-spacing: 0.05em; }
+    .player-logo span { color: #666; font-size: 0.65rem; display: block; letter-spacing: 0.1em; }
+    .player-avatar { width: 36px; height: 36px; background: #FFD100; color: #111; display: flex; align-items: center; justify-content: center; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 0.85rem; }
+
+    .player-section { padding: 0 1.25rem; margin-bottom: 1.5rem; }
+    .player-section-title { color: #FFD100; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; }
+
+    /* Legend */
+    .legend-row { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0 1.25rem; margin-bottom: 1.25rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.7rem; color: #888; font-family: 'Inter', sans-serif; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .legend-dot.game { background: #FFD100; }
+    .legend-dot.practice { background: #00c864; }
+    .legend-dot.lift { background: #4a9eff; }
+    .legend-dot.conditioning { background: #ff8c00; }
+    .legend-dot.film-session { background: #a855f7; }
+    .legend-dot.team { background: #666; }
+
+    /* Day block */
+    .day-block { margin-bottom: 1.25rem; }
+    .day-header { padding: 0.5rem 1.25rem; font-family: 'Oswald', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #888; background: #161616; border-top: 1px solid #1e1e1e; border-bottom: 1px solid #1e1e1e; }
+    .day-header.today { color: #FFD100; background: rgba(255,209,0,0.07); border-color: rgba(255,209,0,0.15); }
+
+    /* Event cards */
+    .p-card { background: #1a1a1a; margin-bottom: 2px; overflow: hidden; }
+    .p-card.today-card { border-right: 1px solid rgba(255,209,0,0.15); }
+    .p-card-event { display: flex; align-items: stretch; }
+    .p-card-stripe { width: 4px; flex-shrink: 0; }
+    .p-card-stripe.game { background: #FFD100; }
+    .p-card-stripe.practice { background: #00c864; }
+    .p-card-stripe.lift { background: #4a9eff; }
+    .p-card-stripe.conditioning { background: #ff8c00; }
+    .p-card-stripe.film-session { background: #a855f7; }
+    .p-card-stripe.team { background: #666; }
+    .p-card-body { padding: 0.85rem 1rem; flex: 1; }
+    .p-card-time { color: #FFD100; font-family: 'Oswald', sans-serif; font-size: 0.8rem; letter-spacing: 0.03em; }
+    .p-card-title { color: #fff; font-weight: 600; font-size: 0.95rem; margin: 0.15rem 0; }
+    .p-card-sub { color: #888; font-size: 0.8rem; }
+    .p-card-completed { color: #00c864; font-size: 0.75rem; margin-top: 0.2rem; }
+
+    /* Day off / team item row */
+    .day-off-row { padding: 0.85rem 1.25rem; color: #555; font-size: 0.85rem; font-family: 'Inter', sans-serif; background: #151515; margin-bottom: 2px; }
+
+    /* Game cards in Upcoming section */
+    .game-card { background: #1a1a1a; border-left: 3px solid #FFD100; padding: 0.85rem 1rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .game-card-left {}
+    .game-card-date { color: #888; font-size: 0.72rem; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+    .game-card-opponent { color: #fff; font-weight: 600; font-size: 1rem; margin: 0.15rem 0 0.1rem; }
+    .game-card-sub { color: #888; font-size: 0.78rem; }
+    .game-card-right { text-align: right; }
+    .game-badge { font-family: 'Oswald', sans-serif; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; }
+    .game-badge.home { background: rgba(255,209,0,0.15); color: #FFD100; }
+    .game-badge.away { background: rgba(255,255,255,0.07); color: #aaa; }
+    .game-badge.rivalry { background: rgba(255,85,85,0.15); color: #ff5555; margin-top: 4px; display: inline-block; }
+
+    /* Bottom nav */
+    .p-bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: #111; border-top: 1px solid #222; display: flex; justify-content: space-around; padding: 0.6rem 0 0.8rem; z-index: 20; }
+    .p-nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; text-decoration: none; color: #666; font-size: 0.6rem; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+    .p-nav-item.active { color: #FFD100; }
+    .p-nav-item svg { width: 22px; height: 22px; }
+
+    .sidebar, .topbar, .sidebar-overlay { display: none !important; }
+    .main { margin-left: 0 !important; }
+    body { padding-bottom: 70px; }
+  </style>
+</head>
+<body>
+
+<div class="player-shell">
+
+  <!-- Top Bar -->
+  <div class="player-topbar">
+    <div class="player-logo">
+      PIVT
+      <span>SPORTS</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <div class="player-avatar">13</div>
+    </div>
+  </div>
+
+  <!-- Page Title -->
+  <div style="padding: 1.25rem 1.25rem 0.75rem;">
+    <h2 style="color: #fff; font-family: 'Oswald', sans-serif; font-size: 1.3rem; margin: 0;">MY SCHEDULE</h2>
+    <p style="color: #888; font-size: 0.8rem; margin: 0.2rem 0 0;">Your practices, lifts, games, and team events</p>
+  </div>
+
+  <!-- Color Legend -->
+  <div class="legend-row">
+    <div class="legend-item"><div class="legend-dot game"></div> Game</div>
+    <div class="legend-item"><div class="legend-dot practice"></div> Practice</div>
+    <div class="legend-item"><div class="legend-dot lift"></div> Lift</div>
+    <div class="legend-item"><div class="legend-dot conditioning"></div> Conditioning</div>
+    <div class="legend-item"><div class="legend-dot film-session"></div> Film</div>
+    <div class="legend-item"><div class="legend-dot team"></div> Team</div>
+  </div>
+
+  <!-- THIS WEEK -->
+  <div class="player-section">
+    <div class="player-section-title">📅 This Week — Dec 8–14</div>
+  </div>
+
+  <!-- Monday Dec 8 -->
+  <div class="day-block">
+    <div class="day-header">Monday, Dec 8</div>
+    <div class="p-card">
+      <div class="p-card-event">
+        <div class="p-card-stripe lift"></div>
+        <div class="p-card-body">
+          <div class="p-card-time">6:30 AM</div>
+          <div class="p-card-title">Morning Lift</div>
+          <div class="p-card-sub">Weight Room · 45 min</div>
+        </div>
+      </div>
+    </div>
+    <div class="p-card">
+      <div class="p-card-event">
+        <div class="p-card-stripe practice"></div>
+        <div class="p-card-body">
+          <div class="p-card-time">3:30 PM</div>
+          <div class="p-card-title">Practice</div>
+          <div class="p-card-sub">Gus Young Court · 120 min</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tuesday Dec 9 -->
+  <div class="day-block">
+    <div class="day-header">Tuesday, Dec 9</div>
+    <div class="p-card">
+      <div class="p-card-event">
+        <div class="p-card-stripe film-session"></div>
+        <div class="p-card-body">
+          <div class="p-card-time">2:00 PM</div>
+          <div class="p-card-title">Film Session — SJU Scouting</div>
+          <div class="p-card-sub">Film Room · 30 min</div>
+        </div>
+      </div>
+    </div>
+    <div class="p-card">
+      <div class="p-card-event">
+        <div class="p-card-stripe conditioning"></div>
+        <div class="p-card-body">
+          <div class="p-card-time">4:00 PM</div>
+          <div class="p-card-title">Conditioning</div>
+          <div class="p-card-sub">Gym · 45 min</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wednesday Dec 10 — TODAY -->
+  <div class="day-block">
+    <div class="day-header today">⚡ Wednesday, Dec 10 — TODAY</div>
+    <div class="p-card today-card">
+      <div class="p-card-event">
+        <div class="p-card-stripe lift"></div>
+        <div class="p-card-body">
+          <div class="p-card-time">6:30 AM</div>
+          <div class="p-card-title">Morning Lift</div>
+          <div class="p-card-sub">Weight Room · 45 min</div>
+          <div class="p-card-completed">✅ Completed</div>
+        </div>
+      </div>
+    </div>
+    <div class="p-card today-card">
+      <div class="p-card-event">
+        <div class="p-card-stripe film-session"></div>
+        <div class="p-card-body">
+          <div class="p-card-time">2:00 PM</div>
+          <div class="p-card-title">Film — SJU Scouting</div>
+          <div class="p-card-sub">Film Room · 30 min</div>
+        </div>
+      </div>
+    </div>
+    <div class="p-card today-card">
+      <div class="p-card-event">
+        <div class="p-card-stripe practice"></div>
+        <div class="p-card-body">
+          <div class="p-card-time">4:30 PM</div>
+          <div class="p-card-title">Shootaround</div>
+          <div class="p-card-sub">Gus Young Court · 60 min</div>
+        </div>
+      </div>
+    </div>
+    <div class="p-card today-card" style="border: 1px solid rgba(255,209,0,0.25);">
+      <div class="p-card-event">
+        <div class="p-card-stripe game"></div>
+        <div class="p-card-body">
+          <div class="p-card-time" style="font-size: 0.9rem;">7:00 PM</div>
+          <div class="p-card-title" style="font-size: 1.05rem;">🏀 GAME vs Saint John's</div>
+          <div class="p-card-sub">Gus Young Court · Report 5:45 PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thursday Dec 11 -->
+  <div class="day-block">
+    <div class="day-header">Thursday, Dec 11</div>
+    <div class="day-off-row">⚪ Day Off</div>
+  </div>
+
+  <!-- Friday Dec 12 -->
+  <div class="day-block">
+    <div class="day-header">Friday, Dec 12</div>
+    <div class="p-card">
+      <div class="p-card-event">
+        <div class="p-card-stripe lift"></div>
+        <div class="p-card-body">
+          <div class="p-card-time">6:30 AM</div>
+          <div class="p-card-title">Morning Lift</div>
+          <div class="p-card-sub">Weight Room · 45 min</div>
+        </div>
+      </div>
+    </div>
+    <div class="p-card">
+      <div class="p-card-event">
+        <div class="p-card-stripe conditioning"></div>
+        <div class="p-card-body">
+          <div class="p-card-time">4:00 PM</div>
+          <div class="p-card-title">Conditioning</div>
+          <div class="p-card-sub">Gym · 45 min</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saturday Dec 13 -->
+  <div class="day-block">
+    <div class="day-header">Saturday, Dec 13</div>
+    <div class="p-card" style="border: 1px solid rgba(255,209,0,0.15);">
+      <div class="p-card-event">
+        <div class="p-card-stripe game"></div>
+        <div class="p-card-body">
+          <div class="p-card-time">3:00 PM</div>
+          <div class="p-card-title">🏀 GAME @ Bethel</div>
+          <div class="p-card-sub">Away · Bus departs 12:30 PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sunday Dec 14 -->
+  <div class="day-block">
+    <div class="day-header">Sunday, Dec 14</div>
+    <div class="p-card">
+      <div class="p-card-event">
+        <div class="p-card-stripe team"></div>
+        <div class="p-card-body">
+          <div class="p-card-time">6:00 PM</div>
+          <div class="p-card-title">Team Dinner</div>
+          <div class="p-card-sub">TBD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Games -->
+  <div class="player-section" style="margin-top: 1rem;">
+    <div class="player-section-title">🗓️ Upcoming Games</div>
+
+    <div class="game-card">
+      <div class="game-card-left">
+        <div class="game-card-date">Dec 10 · 7:00 PM</div>
+        <div class="game-card-opponent">vs Saint John's</div>
+        <div class="game-card-sub">Gus Young Court · MIAC</div>
+      </div>
+      <div class="game-card-right">
+        <div class="game-badge home">Home</div>
+      </div>
+    </div>
+
+    <div class="game-card">
+      <div class="game-card-left">
+        <div class="game-card-date">Dec 13 · 3:00 PM</div>
+        <div class="game-card-opponent">@ Bethel</div>
+        <div class="game-card-sub">Bus departs 12:30 PM · MIAC</div>
+      </div>
+      <div class="game-card-right">
+        <div class="game-badge away">Away</div>
+      </div>
+    </div>
+
+    <div class="game-card">
+      <div class="game-card-left">
+        <div class="game-card-date">Dec 16 · 7:00 PM</div>
+        <div class="game-card-opponent">@ Simpson</div>
+        <div class="game-card-sub">Non-Conference · Away</div>
+      </div>
+      <div class="game-card-right">
+        <div class="game-badge away">Away</div>
+      </div>
+    </div>
+
+    <div class="game-card">
+      <div class="game-card-left">
+        <div class="game-card-date">Jan 4 · 7:00 PM</div>
+        <div class="game-card-opponent">vs St. Olaf</div>
+        <div class="game-card-sub">Gus Young Court · MIAC</div>
+      </div>
+      <div class="game-card-right">
+        <div class="game-badge home">Home</div>
+        <div class="game-badge rivalry">Rivalry</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 20px;"></div>
+
+  <!-- Bottom Navigation -->
+  <nav class="p-bottom-nav">
+    <a href="player-home.html" class="p-nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="player-schedule.html" class="p-nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Schedule
+    </a>
+    <a href="player-film.html" class="p-nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      Film
+    </a>
+    <a href="player-stats.html" class="p-nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Stats
+    </a>
+    <a href="player-profile.html" class="p-nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Profile
+    </a>
+  </nav>
+
+</div>
+
+</body>
+</html>

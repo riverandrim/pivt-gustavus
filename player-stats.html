@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Stats — Pivt Sports</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .player-shell { max-width: 430px; margin: 0 auto; min-height: 100vh; background: #111; }
+    .player-topbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; background: #111; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 10; }
+    .player-logo { font-family: 'Oswald', sans-serif; color: #FFD100; font-size: 1.2rem; font-weight: 700; letter-spacing: 0.05em; }
+    .player-logo span { color: #666; font-size: 0.65rem; display: block; letter-spacing: 0.1em; }
+    .player-avatar { width: 36px; height: 36px; background: #FFD100; color: #111; display: flex; align-items: center; justify-content: center; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 0.85rem; }
+
+    .player-section { padding: 0 1.25rem; margin-bottom: 1.5rem; }
+    .player-section-title { color: #FFD100; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; margin-bottom: 0.75rem; }
+
+    /* Season stat grid */
+    .p-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 0.5rem; }
+    .p-stat-card { background: #1a1a1a; text-align: center; padding: 1rem 0.5rem; }
+    .p-stat-card.highlight { background: rgba(255,209,0,0.08); border: 1px solid rgba(255,209,0,0.2); }
+    .p-stat-val { color: #fff; font-family: 'Oswald', sans-serif; font-size: 1.6rem; font-weight: 700; }
+    .p-stat-val.gold { color: #FFD100; }
+    .p-stat-label { color: #888; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.15rem; }
+
+    /* Accolade */
+    .accolade { display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: rgba(255,209,0,0.1); border: 1px solid rgba(255,209,0,0.2); padding: 0.75rem 1rem; margin-bottom: 1rem; }
+    .accolade-text { color: #FFD100; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.8rem; }
+
+    /* Trend bars */
+    .trend-bar-wrap { margin-top: 0.75rem; }
+    .trend-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
+    .trend-label { color: #888; font-size: 0.78rem; width: 80px; flex-shrink: 0; }
+    .trend-bar-bg { flex: 1; background: #222; height: 28px; position: relative; }
+    .trend-bar-fill { height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem; }
+    .trend-bar-fill.nov { background: #2a2a2a; border-left: 3px solid #4a9eff; width: 82%; }
+    .trend-bar-fill.dec { background: rgba(255,209,0,0.15); border-left: 3px solid #FFD100; width: 97%; }
+    .trend-val { font-family: 'Oswald', sans-serif; font-size: 0.85rem; }
+    .trend-val.nov { color: #4a9eff; }
+    .trend-val.dec { color: #FFD100; }
+    .trend-arrow { color: #00c864; font-size: 0.75rem; font-family: 'Oswald', sans-serif; text-align: right; margin-top: 0.25rem; }
+
+    /* Game log */
+    .game-log-card { background: #1a1a1a; margin-bottom: 2px; padding: 0.75rem 1rem; }
+    .game-log-top { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+    .result-badge { font-family: 'Oswald', sans-serif; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; flex-shrink: 0; }
+    .result-badge.win { background: rgba(0,200,100,0.15); color: #00c864; border: 1px solid rgba(0,200,100,0.25); }
+    .result-badge.loss { background: rgba(255,85,85,0.15); color: #ff5555; border: 1px solid rgba(255,85,85,0.25); }
+    .game-log-opp { color: #fff; font-size: 0.9rem; font-weight: 600; }
+    .game-log-score { color: #666; font-size: 0.78rem; margin-left: auto; }
+    .game-log-stats { display: flex; gap: 0; }
+    .game-log-stat { flex: 1; text-align: center; padding: 0.35rem 0; border-right: 1px solid #222; }
+    .game-log-stat:last-child { border-right: none; }
+    .game-log-stat-val { color: #fff; font-family: 'Oswald', sans-serif; font-size: 0.95rem; font-weight: 700; }
+    .game-log-stat-val.pts { color: #FFD100; }
+    .game-log-stat-label { color: #555; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .game-log-date { color: #555; font-size: 0.68rem; margin-top: 0.35rem; }
+
+    /* Career highs */
+    .career-high-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: #1a1a1a; margin-bottom: 2px; }
+    .ch-label { color: #888; font-size: 0.82rem; }
+    .ch-right { text-align: right; }
+    .ch-val { color: #FFD100; font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 700; }
+    .ch-game { color: #555; font-size: 0.68rem; }
+
+    /* Bottom nav */
+    .p-bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: #111; border-top: 1px solid #222; display: flex; justify-content: space-around; padding: 0.6rem 0 0.8rem; z-index: 20; }
+    .p-nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; text-decoration: none; color: #666; font-size: 0.6rem; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+    .p-nav-item.active { color: #FFD100; }
+    .p-nav-item svg { width: 22px; height: 22px; }
+
+    .sidebar, .topbar, .sidebar-overlay { display: none !important; }
+    .main { margin-left: 0 !important; }
+    body { padding-bottom: 70px; }
+  </style>
+</head>
+<body>
+
+<div class="player-shell">
+
+  <!-- Top Bar -->
+  <div class="player-topbar">
+    <div class="player-logo">
+      PIVT
+      <span>SPORTS</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <div class="player-avatar">13</div>
+    </div>
+  </div>
+
+  <!-- Page Title -->
+  <div style="padding: 1.25rem 1.25rem 0.75rem;">
+    <h2 style="color: #fff; font-family: 'Oswald', sans-serif; font-size: 1.3rem; margin: 0;">MY STATS</h2>
+    <p style="color: #888; font-size: 0.8rem; margin: 0.2rem 0 0;">Season averages and game log</p>
+  </div>
+
+  <!-- Season Averages -->
+  <div class="player-section">
+    <div class="player-section-title">📊 Season Averages</div>
+
+    <div class="p-stat-row">
+      <div class="p-stat-card highlight">
+        <div class="p-stat-val gold">19.7</div>
+        <div class="p-stat-label">PPG</div>
+      </div>
+      <div class="p-stat-card">
+        <div class="p-stat-val">4.2</div>
+        <div class="p-stat-label">APG</div>
+      </div>
+      <div class="p-stat-card">
+        <div class="p-stat-val">4.1</div>
+        <div class="p-stat-label">RPG</div>
+      </div>
+    </div>
+    <div class="p-stat-row">
+      <div class="p-stat-card">
+        <div class="p-stat-val">.596</div>
+        <div class="p-stat-label">FG%</div>
+      </div>
+      <div class="p-stat-card">
+        <div class="p-stat-val">2.5</div>
+        <div class="p-stat-label">SPG</div>
+      </div>
+      <div class="p-stat-card">
+        <div class="p-stat-val">30.6</div>
+        <div class="p-stat-label">MIN</div>
+      </div>
+    </div>
+
+    <!-- Accolade -->
+    <div class="accolade">
+      <span style="font-size: 1.1rem;">🏆</span>
+      <div class="accolade-text">MIAC Player of the Week — Dec 8</div>
+    </div>
+  </div>
+
+  <!-- Season Trend -->
+  <div class="player-section">
+    <div class="player-section-title">📈 Season Trend</div>
+    <div style="background: #1a1a1a; padding: 1rem;">
+      <div style="color: #00c864; font-size: 0.82rem; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.85rem;">↑ Your scoring is trending up</div>
+      <div class="trend-bar-wrap">
+        <div class="trend-row">
+          <div class="trend-label">November</div>
+          <div class="trend-bar-bg">
+            <div class="trend-bar-fill nov">
+              <span class="trend-val nov">16.2 PPG</span>
+            </div>
+          </div>
+        </div>
+        <div class="trend-row">
+          <div class="trend-label">December</div>
+          <div class="trend-bar-bg">
+            <div class="trend-bar-fill dec">
+              <span class="trend-val dec">19.1 PPG</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="trend-arrow">+2.9 PPG month over month ↑</div>
+    </div>
+  </div>
+
+  <!-- Game Log -->
+  <div class="player-section">
+    <div class="player-section-title">📋 Game Log — Last 8 Games</div>
+
+    <!-- 12/10 vs Saint John's W 95-80 -->
+    <div class="game-log-card">
+      <div class="game-log-top">
+        <div class="result-badge win">W</div>
+        <div class="game-log-opp">vs Saint John's</div>
+        <div class="game-log-score">95–80</div>
+      </div>
+      <div class="game-log-stats">
+        <div class="game-log-stat">
+          <div class="game-log-stat-val pts">28</div>
+          <div class="game-log-stat-label">PTS</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">5</div>
+          <div class="game-log-stat-label">REB</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">6</div>
+          <div class="game-log-stat-label">AST</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">3</div>
+          <div class="game-log-stat-label">STL</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">11-16</div>
+          <div class="game-log-stat-label">FG</div>
+        </div>
+      </div>
+      <div class="game-log-date">12/10 · Home</div>
+    </div>
+
+    <!-- 12/6 @ Saint Mary's W 90-54 -->
+    <div class="game-log-card">
+      <div class="game-log-top">
+        <div class="result-badge win">W</div>
+        <div class="game-log-opp">@ Saint Mary's</div>
+        <div class="game-log-score">90–54</div>
+      </div>
+      <div class="game-log-stats">
+        <div class="game-log-stat">
+          <div class="game-log-stat-val pts">22</div>
+          <div class="game-log-stat-label">PTS</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">3</div>
+          <div class="game-log-stat-label">REB</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">5</div>
+          <div class="game-log-stat-label">AST</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">2</div>
+          <div class="game-log-stat-label">STL</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">9-14</div>
+          <div class="game-log-stat-label">FG</div>
+        </div>
+      </div>
+      <div class="game-log-date">12/6 · Away</div>
+    </div>
+
+    <!-- 12/3 vs Hamline W 70-65 -->
+    <div class="game-log-card">
+      <div class="game-log-top">
+        <div class="result-badge win">W</div>
+        <div class="game-log-opp">vs Hamline</div>
+        <div class="game-log-score">70–65</div>
+      </div>
+      <div class="game-log-stats">
+        <div class="game-log-stat">
+          <div class="game-log-stat-val pts">18</div>
+          <div class="game-log-stat-label">PTS</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">4</div>
+          <div class="game-log-stat-label">REB</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">3</div>
+          <div class="game-log-stat-label">AST</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">3</div>
+          <div class="game-log-stat-label">STL</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">7-12</div>
+          <div class="game-log-stat-label">FG</div>
+        </div>
+      </div>
+      <div class="game-log-date">12/3 · Home</div>
+    </div>
+
+    <!-- 11/29 @ Central IA W 77-67 -->
+    <div class="game-log-card">
+      <div class="game-log-top">
+        <div class="result-badge win">W</div>
+        <div class="game-log-opp">@ Central IA</div>
+        <div class="game-log-score">77–67</div>
+      </div>
+      <div class="game-log-stats">
+        <div class="game-log-stat">
+          <div class="game-log-stat-val pts">24</div>
+          <div class="game-log-stat-label">PTS</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">5</div>
+          <div class="game-log-stat-label">REB</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">4</div>
+          <div class="game-log-stat-label">AST</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">2</div>
+          <div class="game-log-stat-label">STL</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">10-17</div>
+          <div class="game-log-stat-label">FG</div>
+        </div>
+      </div>
+      <div class="game-log-date">11/29 · Away</div>
+    </div>
+
+    <!-- 11/22 vs Wis.-Platteville W 87-72 -->
+    <div class="game-log-card">
+      <div class="game-log-top">
+        <div class="result-badge win">W</div>
+        <div class="game-log-opp">vs Wis.-Platteville</div>
+        <div class="game-log-score">87–72</div>
+      </div>
+      <div class="game-log-stats">
+        <div class="game-log-stat">
+          <div class="game-log-stat-val pts">20</div>
+          <div class="game-log-stat-label">PTS</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">3</div>
+          <div class="game-log-stat-label">REB</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">5</div>
+          <div class="game-log-stat-label">AST</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">4</div>
+          <div class="game-log-stat-label">STL</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">8-13</div>
+          <div class="game-log-stat-label">FG</div>
+        </div>
+      </div>
+      <div class="game-log-date">11/22 · Home</div>
+    </div>
+
+    <!-- 11/20 vs Whitworth L 60-62 -->
+    <div class="game-log-card">
+      <div class="game-log-top">
+        <div class="result-badge loss">L</div>
+        <div class="game-log-opp">vs Whitworth</div>
+        <div class="game-log-score">60–62</div>
+      </div>
+      <div class="game-log-stats">
+        <div class="game-log-stat">
+          <div class="game-log-stat-val pts">14</div>
+          <div class="game-log-stat-label">PTS</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">2</div>
+          <div class="game-log-stat-label">REB</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">3</div>
+          <div class="game-log-stat-label">AST</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">1</div>
+          <div class="game-log-stat-label">STL</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">5-14</div>
+          <div class="game-log-stat-label">FG</div>
+        </div>
+      </div>
+      <div class="game-log-date">11/20 · Home</div>
+    </div>
+
+    <!-- 11/8 vs Rockford W 96-49 -->
+    <div class="game-log-card">
+      <div class="game-log-top">
+        <div class="result-badge win">W</div>
+        <div class="game-log-opp">vs Rockford</div>
+        <div class="game-log-score">96–49</div>
+      </div>
+      <div class="game-log-stats">
+        <div class="game-log-stat">
+          <div class="game-log-stat-val pts">16</div>
+          <div class="game-log-stat-label">PTS</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">4</div>
+          <div class="game-log-stat-label">REB</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">6</div>
+          <div class="game-log-stat-label">AST</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">3</div>
+          <div class="game-log-stat-label">STL</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">7-10</div>
+          <div class="game-log-stat-label">FG</div>
+        </div>
+      </div>
+      <div class="game-log-date">11/8 · Home</div>
+    </div>
+
+    <!-- 11/7 @ Aurora W 84-79 -->
+    <div class="game-log-card">
+      <div class="game-log-top">
+        <div class="result-badge win">W</div>
+        <div class="game-log-opp">@ Aurora</div>
+        <div class="game-log-score">84–79</div>
+      </div>
+      <div class="game-log-stats">
+        <div class="game-log-stat">
+          <div class="game-log-stat-val pts">22</div>
+          <div class="game-log-stat-label">PTS</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">5</div>
+          <div class="game-log-stat-label">REB</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">3</div>
+          <div class="game-log-stat-label">AST</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">2</div>
+          <div class="game-log-stat-label">STL</div>
+        </div>
+        <div class="game-log-stat">
+          <div class="game-log-stat-val">9-15</div>
+          <div class="game-log-stat-label">FG</div>
+        </div>
+      </div>
+      <div class="game-log-date">11/7 · Away</div>
+    </div>
+  </div>
+
+  <!-- Career Highs -->
+  <div class="player-section">
+    <div class="player-section-title">🔝 Career Highs</div>
+
+    <div class="career-high-row">
+      <div class="ch-label">Points</div>
+      <div class="ch-right">
+        <div class="ch-val">32</div>
+        <div class="ch-game">vs St. Olaf · Jan 15</div>
+      </div>
+    </div>
+    <div class="career-high-row">
+      <div class="ch-label">Rebounds</div>
+      <div class="ch-right">
+        <div class="ch-val">8</div>
+        <div class="ch-game">vs Wis.-Platteville · Nov 22</div>
+      </div>
+    </div>
+    <div class="career-high-row">
+      <div class="ch-label">Assists</div>
+      <div class="ch-right">
+        <div class="ch-val">8</div>
+        <div class="ch-game">@ Central IA · Nov 29</div>
+      </div>
+    </div>
+    <div class="career-high-row">
+      <div class="ch-label">Steals</div>
+      <div class="ch-right">
+        <div class="ch-val">5</div>
+        <div class="ch-game">vs Hamline · Dec 3</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 20px;"></div>
+
+  <!-- Bottom Navigation -->
+  <nav class="p-bottom-nav">
+    <a href="player-home.html" class="p-nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a href="player-schedule.html" class="p-nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Schedule
+    </a>
+    <a href="player-film.html" class="p-nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      Film
+    </a>
+    <a href="player-stats.html" class="p-nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Stats
+    </a>
+    <a href="player-profile.html" class="p-nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Profile
+    </a>
+  </nav>
+
+</div>
+
+</body>
+</html>
